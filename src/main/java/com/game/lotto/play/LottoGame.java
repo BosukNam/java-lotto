@@ -2,9 +2,10 @@ package com.game.lotto.play;
 
 import com.game.lotto.number.LottoNumberGenerator;
 import com.game.lotto.rate.EarningRates;
-import com.game.lotto.ticket.Ticket;
+import com.game.lotto.ticket.MyTicket;
 import com.game.lotto.ticket.MyTickets;
 import com.game.lotto.ticket.TicketsByStrikes;
+import com.game.lotto.ticket.WinnerTicket;
 
 public class LottoGame {
     private final long inputPrice;
@@ -14,7 +15,7 @@ public class LottoGame {
 
     public LottoGame(long inputPrice, LottoNumberGenerator numberGenerator) {
         this.inputPrice = inputPrice;
-        this.ticketCount = inputPrice / Ticket.PRICE_OF_TICKET_UNIT;
+        this.ticketCount = inputPrice / MyTicket.PRICE_OF_TICKET_UNIT;
         this.myTickets = new MyTickets(ticketCount, numberGenerator);
     }
 
@@ -22,7 +23,7 @@ public class LottoGame {
         return ticketCount;
     }
 
-    public double compareWithWinnerTicketAndGetEarningRates(Ticket winnerTicket) {
+    public double compareWithWinnerTicketAndGetEarningRates(WinnerTicket winnerTicket) {
         ticketsByStrikes = new TicketsByStrikes(winnerTicket, myTickets.getTickets());
         return getEarningRates();
     }

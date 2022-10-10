@@ -1,7 +1,7 @@
 package com.game.lotto.rate;
 
 import com.game.lotto.prize.Rank;
-import com.game.lotto.ticket.Ticket;
+import com.game.lotto.ticket.MyTicket;
 import com.game.lotto.ticket.TicketsByStrikes;
 import com.game.lotto.ui.ResultView;
 
@@ -32,14 +32,15 @@ public class EarningRates {
     }
 
     private void calculateTotalPrize() {
-        totalAmountOfPrizeMoney += getTotalAmountOfPrizeMoney(Rank.FOURTH_PRIZE_MONEY_AMOUNT_WITH_3_STRIKES);
-        totalAmountOfPrizeMoney += getTotalAmountOfPrizeMoney(Rank.THIRD_PRIZE_MONEY_AMOUNT_WITH_4_STRIKES);
-        totalAmountOfPrizeMoney += getTotalAmountOfPrizeMoney(Rank.SECOND_PRIZE_MONEY_AMOUNT_WITH_5_STRIKES);
         totalAmountOfPrizeMoney += getTotalAmountOfPrizeMoney(Rank.FIRST_PRIZE_MONEY_AMOUNT_WITH_6_STRIKES);
+        totalAmountOfPrizeMoney += getTotalAmountOfPrizeMoney(Rank.SECOND_PRIZE_MONEY_AMOUNT_WITH_5_STRIKES_AND_BONUS);
+        totalAmountOfPrizeMoney += getTotalAmountOfPrizeMoney(Rank.THIRD_PRIZE_MONEY_AMOUNT_WITH_5_STRIKES);
+        totalAmountOfPrizeMoney += getTotalAmountOfPrizeMoney(Rank.FOURTH_PRIZE_MONEY_AMOUNT_WITH_4_STRIKES);
+        totalAmountOfPrizeMoney += getTotalAmountOfPrizeMoney(Rank.FIFTH_PRIZE_MONEY_AMOUNT_WITH_3_STRIKES);
     }
 
     private long getTotalAmountOfPrizeMoney(Rank rank) {
-        List<Ticket> ticketsByStrikes = this.ticketsByStrikes.getTicketsByStrikes(rank.getStrikes());
+        List<MyTicket> ticketsByStrikes = this.ticketsByStrikes.getTicketsByRank(rank);
         int ticketsByStrikesSize = ticketsByStrikes.size();
         ResultView.printStrikesAndSize(rank, ticketsByStrikesSize);
         return ticketsByStrikesSize * rank.getMoneyAmount();
