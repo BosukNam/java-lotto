@@ -1,5 +1,8 @@
 package com.game.lotto.prize;
 
+import com.game.lotto.money.Money;
+import com.game.lotto.count.Strike;
+
 public enum Rank {
     FIRST_PRIZE_MONEY_AMOUNT_WITH_6_STRIKES(6, 2_000_000_000),
     SECOND_PRIZE_MONEY_AMOUNT_WITH_5_STRIKES_AND_BONUS(5, 30_000_000),
@@ -8,27 +11,27 @@ public enum Rank {
     FIFTH_PRIZE_MONEY_AMOUNT_WITH_3_STRIKES(3, 5_000),
     NONE(0, 0);
 
-    private final int strikes;
-    private final long moneyAmount;
+    private final Strike strikes;
+    private final Money moneyAmount;
 
-    Rank(int strikes, long moneyAmount) {
-        this.strikes = strikes;
-        this.moneyAmount = moneyAmount;
+    Rank(int strikes, int moneyAmount) {
+        this.strikes = new Strike(strikes);
+        this.moneyAmount = new Money(moneyAmount);
     }
 
-    public int getStrikes() {
+    public Strike getStrikes() {
         return strikes;
     }
 
-    public long getMoneyAmount() {
+    public Money getMoneyAmount() {
         return moneyAmount;
     }
 
-    public static Rank valueOf(int strikes) {
-        if(strikes == 6) return FIRST_PRIZE_MONEY_AMOUNT_WITH_6_STRIKES;
-        if(strikes == 5) return THIRD_PRIZE_MONEY_AMOUNT_WITH_5_STRIKES;
-        if(strikes == 4) return FOURTH_PRIZE_MONEY_AMOUNT_WITH_4_STRIKES;
-        if(strikes == 3) return FIFTH_PRIZE_MONEY_AMOUNT_WITH_3_STRIKES;
+    public static Rank valueOf(Strike strikes) {
+        if(strikes.getCount() == 6) return FIRST_PRIZE_MONEY_AMOUNT_WITH_6_STRIKES;
+        if(strikes.getCount() == 5) return THIRD_PRIZE_MONEY_AMOUNT_WITH_5_STRIKES;
+        if(strikes.getCount() == 4) return FOURTH_PRIZE_MONEY_AMOUNT_WITH_4_STRIKES;
+        if(strikes.getCount() == 3) return FIFTH_PRIZE_MONEY_AMOUNT_WITH_3_STRIKES;
         return NONE;
     }
 }
