@@ -6,7 +6,7 @@ public class ManualLottoNumberGenerator implements LottoNumberGenerator {
 
     private final SelectedLottoNumbers selectedLottoNumbers;
 
-    public ManualLottoNumberGenerator(List<LottoNumber> inputNumbers) {
+    public ManualLottoNumberGenerator(List<Integer> inputNumbers) {
         this.selectedLottoNumbers = new SelectedLottoNumbers(inputNumbers);
     }
 

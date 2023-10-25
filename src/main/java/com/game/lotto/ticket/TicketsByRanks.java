@@ -8,26 +8,26 @@ import java.util.List;
 import java.util.Map;
 
 public class TicketsByRanks {
-    private final Map<Rank, List<MyTicket>> ticketsByRanks;
+    private final Map<Rank, List<LottoTicket>> ticketsByRanks;
 
-    public TicketsByRanks(WinnerTicket winnerTicket, final List<MyTicket> myTickets) {
+    public TicketsByRanks(WinnerTicket winnerTicket, LottoTickets lottoTickets) {
         this.ticketsByRanks = new HashMap<>();
-        updateStrikesWithWinnerTicket(winnerTicket, myTickets);
+        updateStrikesWithWinnerTicket(winnerTicket, lottoTickets);
     }
 
-    private void updateStrikesWithWinnerTicket(WinnerTicket winnerTicket, List<MyTicket> myTickets) {
-        for (MyTicket myTicket : myTickets) {
-            Rank rank = myTicket.compareWinnerNumbersAndGetStrikes(winnerTicket);
-            addTicketsByRanks(rank, myTicket);
+    private void updateStrikesWithWinnerTicket(WinnerTicket winnerTicket, LottoTickets lottoTickets) {
+        for (LottoTicket lottoTicket : lottoTickets.getTickets()) {
+            Rank rank = lottoTicket.compareWinnerNumbersAndGetStrikes(winnerTicket);
+            addTicketsByRanks(rank, lottoTicket);
         }
     }
 
-    private void addTicketsByRanks(Rank rank, MyTicket myTicket) {
+    private void addTicketsByRanks(Rank rank, LottoTicket lottoTicket) {
         ticketsByRanks.putIfAbsent(rank, new ArrayList<>());
-        ticketsByRanks.get(rank).add(myTicket);
+        ticketsByRanks.get(rank).add(lottoTicket);
     }
 
-    public List<MyTicket> getTicketsByRank(Rank rank) {
+    public List<LottoTicket> getTicketsByRank(Rank rank) {
         return ticketsByRanks.getOrDefault(rank, new ArrayList<>());
     }
 }

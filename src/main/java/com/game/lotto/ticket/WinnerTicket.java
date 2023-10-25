@@ -6,16 +6,16 @@ import com.game.lotto.number.SelectedLottoNumbers;
 
 public class WinnerTicket {
 
-    private final SelectedLottoNumbers numbers;
+    private final SelectedLottoNumbers winnerNumbers;
     private final LottoNumber bonusNumber;
 
-    public WinnerTicket(LottoNumberGenerator lottoNumberGenerator, LottoNumber bonusNumber) {
-        this.numbers = lottoNumberGenerator.generateNumbers();
+    public WinnerTicket(SelectedLottoNumbers winnerNumbers, LottoNumber bonusNumber) {
+        this.winnerNumbers = winnerNumbers;
         this.bonusNumber = bonusNumber;
     }
 
     public SelectedLottoNumbers getNumbers() {
-        return numbers;
+        return winnerNumbers;
     }
 
     public LottoNumber getBonusNumber() {

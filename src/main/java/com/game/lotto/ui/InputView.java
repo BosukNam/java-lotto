@@ -1,10 +1,5 @@
 package com.game.lotto.ui;
 
-import com.game.lotto.count.TicketCount;
-import com.game.lotto.money.Money;
-import com.game.lotto.number.LottoNumber;
-import com.game.lotto.number.SelectedLottoNumbers;
-
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -16,20 +11,45 @@ public class InputView {
     private static final String TICKET_NUMBER_STRING_INPUT_SEPARATOR = ",";
     private static final String INPUT_BONUS_NUMBER_MESSAGE = "보너스 볼을 입력해 주세요.";
 
-    public static Money inputPrice() {
-        return new Money(inputNumber(INPUT_PRICE_MESSAGE));
+    public static Integer inputPrice() {
+        System.out.println(INPUT_PRICE_MESSAGE);
+        return inputNumber();
     }
 
-    public static LottoNumber inputBonusNumber() {
-        return new LottoNumber(inputNumber(INPUT_BONUS_NUMBER_MESSAGE));
+    public static Integer inputManualLottoCount() {
+        System.out.println(INPUT_MANUAL_LOTTO_COUNT_MESSAGE);
+        return inputNumber();
     }
 
-    public static TicketCount inputManualLottoCount() {
-        return new TicketCount(inputNumber(INPUT_MANUAL_LOTTO_COUNT_MESSAGE));
+    public static List<List<Integer>> inputManualLottoNumber(int count) {
+        if(count < 0) {
+            throw new IllegalArgumentException("음수값은 입력할 수 없습니다!");
+        }
+
+        List<List<Integer>> result = new ArrayList<>();
+        if(count == 0) {
+            return result;
+        }
+
+        System.out.println(INPUT_MANUAL_LOTTO_NUMBER_MESSAGE);
+        for(int i=0; i<count; i++) {
+            result.add(inputNumbersWithSeparator());
+        }
+        return result;
     }
 
-    public static int inputNumber(String inputMessage) {
-        System.out.println(inputMessage);
+
+    public static List<Integer> inputLastWinnerNumber() {
+        System.out.println(INPUT_LAST_WINNER_NUMBER_MESSAGE);
+        return inputNumbersWithSeparator();
+    }
+
+    public static Integer inputBonusNumber() {
+        System.out.println(INPUT_BONUS_NUMBER_MESSAGE);
+        return inputNumber();
+    }
+
+    public static Integer inputNumber() {
         try {
             return new Scanner(System.in).nextInt();
         } catch (InputMismatchException ime) {
@@ -37,45 +57,22 @@ public class InputView {
         }
     }
 
-    public static List<LottoNumber> inputLastWinnerNumber() {
-        return inputLottoNumber(INPUT_LAST_WINNER_NUMBER_MESSAGE);
-    }
-
-    public static List<LottoNumber> inputLottoNumber(String message) {
-        String inputString = inputString(message);
-        return getLottoNumbers(inputString);
-    }
-
-    public static List<SelectedLottoNumbers> inputManualLottoNumber(TicketCount ticketCount) {
-        System.out.println(INPUT_MANUAL_LOTTO_NUMBER_MESSAGE);
-        List<SelectedLottoNumbers> totalSelectedManualLottoNumbers = new ArrayList<>();
-        for (int index = 0; index < ticketCount.getCount(); index++) {
-            totalSelectedManualLottoNumbers.add(new SelectedLottoNumbers(inputLottoNumber()));
-        }
-        return totalSelectedManualLottoNumbers;
-    }
-
-    public static List<LottoNumber> inputLottoNumber() {
+    public static List<Integer> inputNumbersWithSeparator() {
         String inputString = inputString();
-        return getLottoNumbers(inputString);
+        return numbersFromString(inputString);
     }
 
-    public static String inputString() {
-        return new Scanner(System.in).nextLine();
-    }
-
-    private static List<LottoNumber> getLottoNumbers(String inputString) {
+    private static List<Integer> numbersFromString(String inputString) {
         try {
             return Arrays.stream(inputString.split(TICKET_NUMBER_STRING_INPUT_SEPARATOR))
-                    .map(x -> new LottoNumber(Integer.parseInt(x.trim())))
+                    .map(x -> Integer.parseInt(x.trim()))
                     .collect(Collectors.toUnmodifiableList());
         } catch (NumberFormatException nfe) {
             throw new IllegalArgumentException("숫자가 아닙니다! 숫자만 입력해주세요!");
         }
     }
 
-    public static String inputString(String inputMessage) {
-        System.out.println(inputMessage);
+    public static String inputString() {
         return new Scanner(System.in).nextLine();
     }
 }

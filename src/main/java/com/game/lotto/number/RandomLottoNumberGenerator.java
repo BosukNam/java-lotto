@@ -14,6 +14,6 @@ public class RandomLottoNumberGenerator implements LottoNumberGenerator {
         Collections.shuffle(totalNumbers);
         ArrayList<LottoNumber> subNumbers = new ArrayList<>(totalNumbers.subList(0, LOTTO_NUMBER_SELECT_COUNT));
         subNumbers.sort(LottoNumber::compareTo);
-        return new SelectedLottoNumbers(subNumbers);
+        return new SelectedLottoNumbers(new LottoNumbers(subNumbers));
     }
 }

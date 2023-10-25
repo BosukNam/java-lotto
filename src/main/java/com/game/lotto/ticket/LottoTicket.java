@@ -6,12 +6,12 @@ import com.game.lotto.number.SelectedLottoNumbers;
 import com.game.lotto.prize.Rank;
 import com.game.lotto.count.Strike;
 
-public class MyTicket {
+public class LottoTicket {
     public static final int PRICE_OF_TICKET_UNIT = 1_000;
 
     private final SelectedLottoNumbers numbers;
 
-    public MyTicket(LottoNumberGenerator lottoNumberGenerator) {
+    public LottoTicket(LottoNumberGenerator lottoNumberGenerator) {
         numbers = lottoNumberGenerator.generateNumbers();
     }
 

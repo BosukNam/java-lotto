@@ -1,5 +1,6 @@
 package com.game.lotto.prize;
 
+import com.game.lotto.count.Number;
 import com.game.lotto.money.Money;
 import com.game.lotto.count.Strike;
 
@@ -19,7 +20,7 @@ public enum Rank {
 
     Rank(int strikes, int moneyAmount, boolean needBonusBall) {
         this.strikes = new Strike(strikes);
-        this.moneyAmount = new Money(moneyAmount);
+        this.moneyAmount = new Money(new Number(moneyAmount));
         this.needBonusBall = needBonusBall;
     }
 

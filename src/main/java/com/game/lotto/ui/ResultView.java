@@ -1,8 +1,10 @@
 package com.game.lotto.ui;
 
-import com.game.lotto.count.TicketCount;
+import com.game.lotto.count.ManualLottoTicketCount;
+import com.game.lotto.count.Number;
 import com.game.lotto.prize.Rank;
-import com.game.lotto.ticket.MyTicket;
+import com.game.lotto.ticket.LottoTicket;
+import com.game.lotto.ticket.LottoTickets;
 
 public class ResultView {
     private static final String OUTPUT_COUNT_MESSAGE_FORMAT = "\n수동으로 %d장, 자동으로 %d개를 구매했습니다.\n";
@@ -14,11 +16,11 @@ public class ResultView {
     public static final String OUTPUT_RESULT_EARNING_RATE_EQUAL_MESSAGE = "(기준이 1이기 때문에 결과적으로 본전이라는 의미임)";
     public static final String OUTPUT_RESULT_EARNING_RATE_HIGH_MESSAGE = "(기준이 1이기 때문에 결과적으로 이득이라는 의미임)";
 
-    public static void printOutputCountMessage(TicketCount totalCount, TicketCount manualCount) {
-        int totalCounts = totalCount.getCount();
-        int manualCounts = manualCount.getCount();
-        int randomCounts = totalCounts - manualCounts;
+    public static void printOutputCountMessage(ManualLottoTicketCount manualLottoCount, LottoTickets purchasedTickets) {
+        int manualCounts = manualLottoCount.getValue();
+        int randomCounts = purchasedTickets.getTickets().size() - manualCounts;
         System.out.printf(OUTPUT_COUNT_MESSAGE_FORMAT, manualCounts, randomCounts);
+        printTicketNumbers(purchasedTickets);
     }
 
     public static void printResultMessage() {
@@ -29,8 +31,14 @@ public class ResultView {
         System.out.println(message);
     }
 
-    public static void printTicketNumbers(MyTicket myTicket) {
-        System.out.println(myTicket);
+    public static void printTicketNumbers(LottoTicket lottoTicket) {
+        System.out.println(lottoTicket);
+    }
+
+    public static void printTicketNumbers(LottoTickets lottoTickets) {
+        for(LottoTicket lottoTicket : lottoTickets.getTickets()) {
+            System.out.println(lottoTicket);
+        }
     }
 
     public static void printStrikesAndSize(Rank rank, int ticketsByRanksSize) {
@@ -38,7 +46,7 @@ public class ResultView {
         if (Rank.SECOND_PRIZE_MONEY_AMOUNT_WITH_5_STRIKES_AND_BONUS.equals(rank)) {
             format = OUTPUT_RESULT_STRIKES_AND_BONUS_MESSAGE_FORMAT;
         }
-        System.out.printf((format) + "%n", rank.getStrikes().getCount(), rank.getMoneyAmount().getAmount(), ticketsByRanksSize);
+        System.out.printf((format) + "%n", rank.getStrikes().getCount(), rank.getMoneyAmount().getValue(), ticketsByRanksSize);
     }
 
     public static void printGameResult(double earningRates) {

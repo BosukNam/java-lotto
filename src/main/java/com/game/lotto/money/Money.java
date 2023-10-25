@@ -1,24 +1,42 @@
 package com.game.lotto.money;
 
 
-public class Money {
+import com.game.lotto.count.Number;
+import com.game.lotto.ui.InputView;
 
-    private int amount;
+public class Money extends Number implements Comparable {
 
     public Money() {
-        this(0);
+        this(InputView.inputPrice());
     }
 
-    public Money(int amount) {
-        this.amount = amount;
+    public Money(Number number) {
+        super(number.getValue());
     }
 
-    public int getAmount() {
-        return amount;
+    private Money(int amount) {
+        super(amount);
     }
 
-    public void addAmount(int amount) {
-        this.amount += amount;
+    public void deposit(int amount) {
+        isValidAmount(amount);
+        this.value += amount;
     }
 
+    public void withdrawAmount(int amount) {
+        isValidAmount(amount);
+        this.value -= amount;
+    }
+
+    private static void isValidAmount(int amount) {
+        if(amount < 0) {
+            throw new IllegalArgumentException("음수값은 입금할 수 없습니다!");
+        }
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        Money compareMoney = (Money)o;
+        return value - compareMoney.getValue();
+    }
 }

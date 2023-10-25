@@ -1,15 +1,14 @@
 package com.game.lotto.rate;
 
+import com.game.lotto.count.Number;
 import com.game.lotto.money.Money;
 import com.game.lotto.prize.Rank;
-import com.game.lotto.ticket.MyTicket;
+import com.game.lotto.ticket.LottoTicket;
 import com.game.lotto.ticket.TicketsByRanks;
 import com.game.lotto.ui.ResultView;
 
 import java.util.Arrays;
 import java.util.List;
-
-import static com.game.lotto.ui.ResultView.*;
 
 public class EarningRates {
     private final Money totalAmountOfTicketMoney;
@@ -18,7 +17,7 @@ public class EarningRates {
 
     public EarningRates(Money totalAmountOfTicketMoney, TicketsByRanks ticketsByRanks) {
         this.totalAmountOfTicketMoney = totalAmountOfTicketMoney;
-        this.totalAmountOfPrizeMoney = new Money();
+        this.totalAmountOfPrizeMoney = new Money(new Number(0));
         this.ticketsByRanks = ticketsByRanks;
     }
 
@@ -28,19 +27,19 @@ public class EarningRates {
 
     private double calculateEarningRates() {
         calculateTotalPrize();
-        return (double) totalAmountOfPrizeMoney.getAmount() / totalAmountOfTicketMoney.getAmount();
+        return (double) totalAmountOfPrizeMoney.getValue() / totalAmountOfTicketMoney.getValue();
     }
 
     private void calculateTotalPrize() {
         Arrays.stream(Rank.values())
                 .filter(rank -> !rank.equals(Rank.NONE))
-                .forEach(rank -> totalAmountOfPrizeMoney.addAmount(getTotalAmountOfPrizeMoney(rank)));
+                .forEach(rank -> totalAmountOfPrizeMoney.deposit(getTotalAmountOfPrizeMoney(rank)));
     }
 
     private int getTotalAmountOfPrizeMoney(Rank rank) {
-        List<MyTicket> ticketsByRanks = this.ticketsByRanks.getTicketsByRank(rank);
+        List<LottoTicket> ticketsByRanks = this.ticketsByRanks.getTicketsByRank(rank);
         int ticketsByRanksSize = ticketsByRanks.size();
         ResultView.printStrikesAndSize(rank, ticketsByRanksSize);
-        return ticketsByRanksSize * rank.getMoneyAmount().getAmount();
+        return ticketsByRanksSize * rank.getMoneyAmount().getValue();
     }
 }
